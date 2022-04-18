@@ -129,7 +129,7 @@ class Anime():
         button2 = [[]]
         current_row = 0
         if int(float(x[2])) < 101:
-            for i in range(int(x[2])):
+            for i in range(int(float(x[2]))):
                 button2[current_row].append(Button.inline(
                     str(i+1), data=f'ep:{i+1}:{x[1]}'))
                 if (i+1) % 5 == 0:
