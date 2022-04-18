@@ -10,7 +10,7 @@ class gogoanime():
 
     def get_search_results(query):
         try:
-            url1 = f"https://gogoanime.fi/search.html?keyword={query}"
+            url1 = f"https://otakudesu.site/?s={query}&post_type=anime"
             session = HTMLSession()
             response = session.get(url1)
             response_html = response.text
