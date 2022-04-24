@@ -10,16 +10,16 @@ class gogoanime():
 
     def get_search_results(query):
         try:
-            url1 = f"https://meownime.moe/?s={query}"
+            url1 = f"https://nanimex.org/?s={query}"
             session = HTMLSession()
             response = session.get(url1)
             response_html = response.text
             soup = BeautifulSoup(response_html, 'html.parser')
-            animes = soup.find("ul", {"class": "items"}).find_all("li")
+            animes = soup.find("div", {"class": "box-body box-poster"}).find_all("a", title=True)
             res_list_search = []
             for anime in animes:
-                tit = anime.a["title"]
-                urll = anime.a["href"]
+                tit = anime["title"]
+                urll = anime["href"]
                 r = urll.split('/')
                 res_list_search.append({"name":f"{tit}","animeid":f"{r[2]}"})
             if res_list_search == []:
@@ -31,7 +31,7 @@ class gogoanime():
 
     def get_anime_details(animeid):
         try:
-            animelink = 'https://meownime.moe/{}'.format(animeid)
+            animelink = 'https://gogoanime.fi/category/{}'.format(animeid)
             response = requests.get(animelink)
             plainText = response.text
             soup = BeautifulSoup(plainText, "lxml")
@@ -70,7 +70,7 @@ class gogoanime():
 
     def get_episodes_link(animeid, episode_num):
         try:
-            animelink = f'https://gogoanime.fi/category/{animeid}'
+            animelink = f'https://nanimex.org/anime/{animeid}'
             response = requests.get(animelink)
             plainText = response.text
             soup = BeautifulSoup(plainText, "lxml")
@@ -118,17 +118,17 @@ class gogoanime():
     
     def get_home_page():
         try:
-            url = 'https://gogoanime.fi'
+            url = 'https://nanimex.org'
             session = HTMLSession()
             response = session.get(url)
             response_html = response.text
 
             soup = BeautifulSoup(response_html, 'lxml')
             res_list_search =[]
-            animes =  soup.find("ul", {"class": "items"}).find_all("li")
+            animes =  soup.find("div", {"class": "box-body box-poster"}).find_all("a", title=True)
             for anime in animes:
-                tit = anime.a["title"]
-                urll = anime.a["href"]
+                tit = anime["title"]
+                urll = anime["href"]
                 res_list_search.append({"name":f"{tit}","Id-Epnum":f"{urll[1:]}"})
             if res_list_search == []:
                 return {"status":"204", "reason":"I have No Idea what the fuck went wrong"}
